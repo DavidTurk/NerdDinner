@@ -27,7 +27,7 @@ namespace NerdDinner.Controllers
             Dinner dinner = db.Dinners.Find(id);
             if (dinner == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("NotFound");
             }
             return View(dinner);
         }
@@ -129,6 +129,11 @@ namespace NerdDinner.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult NotFound()
+        {
+            return View();
         }
     }
 }
