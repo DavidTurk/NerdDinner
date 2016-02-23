@@ -211,6 +211,10 @@
     <Compile Include="Migrations\201602232159184_AddedViews.Designer.cs">
       <DependentUpon>201602232159184_AddedViews.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201602232251174_UpdatedAnnotations.cs" />
+    <Compile Include="Migrations\201602232251174_UpdatedAnnotations.Designer.cs">
+      <DependentUpon>201602232251174_UpdatedAnnotations.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Dinner.cs" />
@@ -313,6 +317,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201602232159184_AddedViews.resx">
       <DependentUpon>201602232159184_AddedViews.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602232251174_UpdatedAnnotations.resx">
+      <DependentUpon>201602232251174_UpdatedAnnotations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
