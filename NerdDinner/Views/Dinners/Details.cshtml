@@ -1,0 +1,29 @@
+﻿@model NerdDinner.Models.Dinner
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Dinner</h4>
+    <hr/>
+    <p>
+        <strong>When: </strong> @Html.DisplayFor(model => model.EventDate)
+    </p>
+    <p>
+        <strong>Where: </strong> @Html.DisplayFor(model => model.Address)
+    </p>
+    <p>
+        <strong>Description: </strong> @Html.DisplayFor(model => model.Description)
+    </p>
+    <p>
+        <strong>Organizer: </strong> @Html.DisplayFor(model => model.HostedBy) (@Html.DisplayFor(model => model.ContactPhone))
+    </p>
+</div>
+<p>
+    @Html.ActionLink("Edit Dinner", "Edit", new {id = Model.DinnerID}) |
+    @Html.ActionLink("Delete Dinner", "Delete", new { id = Model.DinnerID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

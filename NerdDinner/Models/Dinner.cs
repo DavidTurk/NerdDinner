@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace NerdDinner.Models
 {
-    public class Dinner
+    public partial class Dinner
     {
         [HiddenInput(DisplayValue = false)]
         public int DinnerID { get; set; }
@@ -22,6 +22,7 @@ namespace NerdDinner.Models
 
         [Required(ErrorMessage = "Description is required")]
         [StringLength(256, ErrorMessage = "Description may not be longer than 256 characters")]
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
         [StringLength(20, ErrorMessage = "Hosted By name may not be longer than 20 characters")]
@@ -41,5 +42,22 @@ namespace NerdDinner.Models
         public double Longitude { get; set; }
 
         public virtual  ICollection<RSVP> RSVPs { get; set; } 
+    }
+
+    public class RuleViolation
+    {
+        public string ErrorMessage { get; private set; }
+        public string PropertyName { get; private set; }
+
+        public RuleViolation(string errorMessage)
+        {
+            ErrorMessage = errorMessage;
+        }
+
+        public RuleViolation(string errorMessage, string propertyName)
+        {
+            ErrorMessage = errorMessage;
+            PropertyName = propertyName;
+        }
     }
 }
