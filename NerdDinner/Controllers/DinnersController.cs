@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using NerdDinner.Models;
+using PagedList;
 
 namespace NerdDinner.Controllers
 {
@@ -12,10 +13,20 @@ namespace NerdDinner.Controllers
     {
         private DinnerRepository dinnerRepository = new DinnerRepository();
         // GET: Dinners
-        public ActionResult Index()
+        public ActionResult Index(string currentFilter,string searchString, int? page, int pageSize = 10)
         {
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            int pageNumber = (page ?? 1);
             var upcomingDinners = dinnerRepository.FindUpcomingDinners().ToList();
-            return View("Index", upcomingDinners);
+            return View("Index", upcomingDinners.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Dinners/Details/5
