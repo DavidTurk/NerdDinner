@@ -41,6 +41,7 @@ namespace NerdDinner.Controllers
         }
 
         // GET: Dinners/Create
+        [Authorize]
         public ActionResult Create()
         {
             Dinner currentDinner = new Dinner()
@@ -52,11 +53,13 @@ namespace NerdDinner.Controllers
         }
 
         // POST: Dinners/Create
+        [Authorize]
         [HttpPost]
         public ActionResult Create(Dinner dinner)
         {
             if (ModelState.IsValid)
             {
+                dinner.HostedBy = User.Identity.Name;
                 
                 dinnerRepository.Add(dinner);
                 dinnerRepository.Save();
@@ -68,6 +71,7 @@ namespace NerdDinner.Controllers
         }
 
         // GET: Dinners/Edit/5
+        [Authorize]
         public ActionResult Edit(int id)
         {
             Dinner currentDinner = dinnerRepository.GetDinner(id);
@@ -75,14 +79,21 @@ namespace NerdDinner.Controllers
             if (currentDinner == null)
                 return View("NotFound");
 
+            if (!currentDinner.IsHostedBy(User.Identity.Name))
+                return View("InvalidOwner");
+
             return View(new DinnerFormViewModel(currentDinner));
         }
 
         // POST: Dinners/Edit/5
+        [Authorize]
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
             Dinner currentDinner = dinnerRepository.GetDinner(id);
+
+            if (!currentDinner.IsHostedBy(User.Identity.Name))
+                return View("InvalidOwner");
 
             try
             {
@@ -105,8 +116,11 @@ namespace NerdDinner.Controllers
 
             if (dinner == null)
                 return View("NotFound");
-            else
-                return View(dinner);
+
+            if (!dinner.IsHostedBy(User.Identity.Name))
+                return View("InvalidOwner");
+
+            return View(dinner);
         }
 
         // POST: Dinners/Delete/5
@@ -117,6 +131,9 @@ namespace NerdDinner.Controllers
 
             if (dinner == null)
                 return View("NotFound");
+
+            if (!dinner.IsHostedBy(User.Identity.Name))
+                return View("InvalidOwner");
 
             dinnerRepository.Delete(dinner);
             dinnerRepository.Save();

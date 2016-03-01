@@ -326,6 +326,7 @@
     <Content Include="Views\Dinners\Create.cshtml" />
     <Content Include="Views\Dinners\Delete.cshtml" />
     <Content Include="Views\Dinners\Deleted.cshtml" />
+    <Content Include="Views\Dinners\InvalidOwner.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
