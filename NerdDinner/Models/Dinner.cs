@@ -46,7 +46,7 @@ namespace NerdDinner.Models
             return HostedBy.Equals(userName, StringComparison.InvariantCultureIgnoreCase);
         }
 
-        public virtual  ICollection<RSVP> RSVPs { get; set; } 
+        public virtual ICollection<RSVP> RSVPs { get; set; } 
     }
 
     public class RuleViolation
