@@ -34,7 +34,7 @@ namespace NerdDinner.Models
 
         public void Delete(Dinner dinner)
         {
-            foreach (RSVP rsvp in dinner.RSVPs)
+            foreach (RSVP rsvp in dinner.RSVPs.ToList())
             {
                 db.RSVPs.Remove(rsvp);
             }
