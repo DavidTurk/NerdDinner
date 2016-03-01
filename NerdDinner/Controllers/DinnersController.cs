@@ -37,7 +37,7 @@ namespace NerdDinner.Controllers
                 EventDate = DateTime.Now.AddDays(7)
             };
             
-            return View(currentDinner);
+            return View(new DinnerFormViewModel(currentDinner));
         }
 
         // POST: Dinners/Create
@@ -53,7 +53,7 @@ namespace NerdDinner.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(dinner);
+            return View(new DinnerFormViewModel(dinner));
         }
 
         // GET: Dinners/Edit/5
@@ -64,7 +64,7 @@ namespace NerdDinner.Controllers
             if (currentDinner == null)
                 return View("NotFound");
 
-            return View(currentDinner);
+            return View(new DinnerFormViewModel(currentDinner));
         }
 
         // POST: Dinners/Edit/5
@@ -83,7 +83,7 @@ namespace NerdDinner.Controllers
             }
             catch
             {
-                return View(currentDinner);
+                return View(new DinnerFormViewModel(currentDinner));
             }
         }
 
