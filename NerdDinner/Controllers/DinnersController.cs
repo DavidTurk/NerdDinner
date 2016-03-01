@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -25,35 +26,43 @@ namespace NerdDinner.Controllers
             if (currentDinner == null)
                 return View("NotFound");
             else
-                return View("Details", currentDinner);
+                return View(currentDinner);
         }
 
         // GET: Dinners/Create
         public ActionResult Create()
         {
-            return View();
+            Dinner currentDinner = new Dinner()
+            {
+                EventDate = DateTime.Now.AddDays(7)
+            };
+            
+            return View(currentDinner);
         }
 
         // POST: Dinners/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Dinner dinner)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
+                
+                dinnerRepository.Add(dinner);
+                dinnerRepository.Save();
 
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(dinner);
         }
 
         // GET: Dinners/Edit/5
         public ActionResult Edit(int id)
         {
             Dinner currentDinner = dinnerRepository.GetDinner(id);
+            
+            if (currentDinner == null)
+                return View("NotFound");
 
             return View(currentDinner);
         }
@@ -74,8 +83,6 @@ namespace NerdDinner.Controllers
             }
             catch
             {
-                //TODO: ModelState.AddRuleViolations(currentDinner.GetRuleViolations());
-
                 return View(currentDinner);
             }
         }
@@ -83,23 +90,27 @@ namespace NerdDinner.Controllers
         // GET: Dinners/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Dinner dinner = dinnerRepository.GetDinner(id);
+
+            if (dinner == null)
+                return View("NotFound");
+            else
+                return View(dinner);
         }
 
         // POST: Dinners/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
-            {
-                // TODO: Add delete logic here
+            Dinner dinner = dinnerRepository.GetDinner(id);
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            if (dinner == null)
+                return View("NotFound");
+
+            dinnerRepository.Delete(dinner);
+            dinnerRepository.Save();
+
+            return View("Deleted");
         }
     }
 }
