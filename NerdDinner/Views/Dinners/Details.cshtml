@@ -4,6 +4,11 @@
     ViewBag.Title = "Details";
 }
 
+@section scripts{
+    <script src="~/Scripts/jquery-2.2.0.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+}
+
 <h2>Details</h2>
 
 <div>
@@ -31,13 +36,12 @@
 
         } else {
 
-            <p class="text-danger">You are not registered for this event</p>
+            $.Ajax
 
         }
 
     } else {
     
-        //TODO
         @Html.Raw("You must register to RSVP for this dinner.")
         
     }
