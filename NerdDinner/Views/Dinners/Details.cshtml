@@ -1,4 +1,5 @@
-﻿@model NerdDinner.Models.Dinner
+﻿@using System.Web.Mvc.Ajax
+@model NerdDinner.Models.Dinner
 
 @{
     ViewBag.Title = "Details";
@@ -12,7 +13,7 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Dinner</h4>
+    <h4>Dinner - @Html.DisplayFor(model => model.Title) </h4>
     <hr/>
     <p>
         <strong>When: </strong> @Html.DisplayFor(model => model.EventDate)
@@ -34,14 +35,22 @@
 
             <p class="text-success">You are registered for this event!</p>
 
-        } else {
-
-            $.Ajax
+        }
+        else {
+            
+                <p class="text-success" id="RSVPMessageBlock">
+                @Ajax.ActionLink("RSVP for this event",
+                                "Register",
+                                "RSVP",
+                                new { id = Model.DinnerID },
+                                new AjaxOptions { UpdateTargetId = "RSVPMessageBlock", HttpMethod = "Post" })
+                </p>
 
         }
 
-    } else {
-    
+    }
+    else {
+
         @Html.Raw("You must register to RSVP for this dinner.")
         
     }

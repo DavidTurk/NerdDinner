@@ -23,14 +23,12 @@ namespace NerdDinner.Controllers
             {
                 RSVP rsvp = new RSVP() {AttendeeName = User.Identity.Name};
 
-                //TODO
-                //currentDinner.RSVPs = new List<RSVP>();
                 currentDinner.RSVPs.Add(rsvp);
                 dinnerRepository.Save();
 
             }
 
-            return Content("Thanks - We'll see you there!");
+            return Content("You are now registered for this dinner - We'll see you there!");
         }
     }
 }
