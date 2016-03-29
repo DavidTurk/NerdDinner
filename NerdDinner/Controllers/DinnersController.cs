@@ -102,7 +102,7 @@ namespace NerdDinner.Controllers
 
             try
             {
-                UpdateModel(currentDinner);
+                UpdateModel(currentDinner, "dinner");
 
                 dinnerRepository.Save();
 
