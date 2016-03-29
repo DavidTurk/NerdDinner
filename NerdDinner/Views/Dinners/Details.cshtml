@@ -11,26 +11,49 @@
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
     <script type="text/javascript">
 
-       $(document).ready(function () {
-         initialize();
-       });
-       function initialize() {
-         var mapOptions = {
-             center: new google.maps.LatLng(@Html.DisplayFor(model => model.Latitude), @Html.DisplayFor(model => model.Longitude)),
-           zoom: 12,
-           mapTypeId: google.maps.MapTypeId.ROADMAP
-         };
-         var map = new google.maps.Map(document.getElementById("map_canvas"),
-           mapOptions);
-         // create a marker
-         var latlng = new google.maps.LatLng(@Html.DisplayFor(model => model.Latitude), @Html.DisplayFor(model => model.Longitude));
-         var marker = new google.maps.Marker({
-           position: latlng,
-           map: map,
-           title: 'Dinner @Html.DisplayFor(model => model.Title)'
-         });
-       }
-    </script> 
+        $(document).ready(function() {
+            initialize();
+        });
+
+        function initialize() {
+            var mapOptions = {
+                center: new window.google.maps.LatLng(@Html.DisplayFor(model => model.Latitude), @Html.DisplayFor(model => model.Longitude)),
+                zoom: 12,
+                mapTypeId: window.google.maps.MapTypeId.ROADMAP
+            };
+            var map = new window.google.maps.Map(document.getElementById("map_canvas"),
+                mapOptions);
+            // create a marker
+            var latlng = new window.google.maps.LatLng(@Html.DisplayFor(model => model.Latitude), @Html.DisplayFor(model => model.Longitude));
+            var marker = new window.google.maps.Marker({
+                position: latlng,
+                map: map,
+                title: 'Dinner @Html.DisplayFor(model => model.Title)'
+            });
+
+            window.google.maps.event.addListener(map, 'click', function(e) {
+                deleteMarkers();
+            });
+            window.google.maps.event.addListener(map, 'click', function(e) {
+                placeMarker(e.latLng, map);
+            });
+
+            function deleteMarkers() {
+                //TODO Fix the delete
+                //clearMarkers();
+                //markers = [];
+            }
+
+            function placeMarker(position, map) {
+
+                var marker = new window.google.maps.Marker({
+                    position: position,
+                    map: map
+                });  
+                map.panTo(position);
+            }
+        }
+    </script>
 }
 
 <h2>Details</h2>
