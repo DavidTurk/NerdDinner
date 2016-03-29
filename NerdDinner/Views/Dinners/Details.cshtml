@@ -22,11 +22,34 @@
         <strong>Organizer: </strong> @Html.DisplayFor(model => model.HostedBy) (@Html.DisplayFor(model => model.ContactPhone))
     </p>
 </div>
-<p>
-    @if (Model.IsHostedBy(Context.User.Identity.Name))
-    {
-    @Html.ActionLink("Edit Dinner", "Edit", new {id = Model.DinnerID}) @Html.Raw(" | ")
-    @Html.ActionLink("Delete Dinner", "Delete", new { id = Model.DinnerID }) @Html.Raw(" | ")
+<div>
+    @if (Request.IsAuthenticated) {
+        if (Model.IsUserRegistered(Context.User.Identity.Name))
+        {
+
+            <p>You are registered for this event!</p>
+
+        } else {
+
+            <p>You are not registered for this event</p>
+
+        }
+
+    } else {
+    
+        //TODO
+        @Html.Raw("You must register to RSVP for this dinner.")
+        
     }
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+    <p>
+        @if (Model.IsHostedBy(Context.User.Identity.Name))
+        {
+            @Html.ActionLink("Edit Dinner", "Edit", new {id = Model.DinnerID})
+            @Html.Raw(" | ")
+            @Html.ActionLink("Delete Dinner", "Delete", new {id = Model.DinnerID})
+            @Html.Raw(" | ")
+        }
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</div>
