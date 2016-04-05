@@ -1,5 +1,8 @@
 ﻿@model PagedList.IPagedList<NerdDinner.Models.Dinner>
+@using System.ComponentModel.DataAnnotations
 @using PagedList.Mvc;
+@using System.Web.Mvc.Ajax;
+@using Microsoft.Owin.Security.Google
 
 @{
     ViewBag.Title = "Index";
@@ -10,8 +13,10 @@
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
     <script type="text/javascript">
-        var marker = new window.google.maps.Marker({});
-        $(document).ready(function() {
+
+        var markersArray = [];
+
+        $(document).ready(function () {
             initialize();
         });
 
@@ -23,14 +28,26 @@
             };
             var map = new window.google.maps.Map(document.getElementById("map_canvas"),
                 mapOptions);
+
+            @foreach(var item in Model)
+            {
+                <text>
+                    markersArray.push(new google.maps.Marker({
+                        position: new google.maps.LatLng('@item.Latitude', '@item.Longitude', false),
+                        title: '@item.Title',
+                        content: '<p>@item.Description</p>@item.Address',
+                        map: map
+                    }));
+                </text>
+            }
         }
     </script>
 }
 <h2>Upcoming Dinners</h2>
-<div id="map_canvas" class="col-xs-7" style="width: 550px; height: 380px">
+<div id="map_canvas" class="col-xs-7" style="width: 600px; height: 380px">
     
 </div>
-<div class="col-xs-offset-1 col-xs-4">
+<div class="col-xs-5">
     <ul>
         @foreach (var item in Model)
         {
