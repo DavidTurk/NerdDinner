@@ -23,7 +23,7 @@
             };
             var map = new window.google.maps.Map(document.getElementById("map_canvas"),
                 mapOptions);
-            // create a marker
+            
             var latlng = new window.google.maps.LatLng(@Html.DisplayFor(model => model.Latitude), @Html.DisplayFor(model => model.Longitude));
             var marker = new window.google.maps.Marker({
                 position: latlng,

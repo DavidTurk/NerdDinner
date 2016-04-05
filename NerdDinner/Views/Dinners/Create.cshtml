@@ -4,83 +4,129 @@
     ViewBag.Title = "Create";
 }
 
+@section scripts{
+    <script src="~/Scripts/jquery-2.2.0.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript">
+        var marker = new window.google.maps.Marker({});
+        $(document).ready(function() {
+            initialize();
+        });
+
+        function initialize() {
+            var mapOptions = {
+                center: new window.google.maps.LatLng(47.6062, -122.332),
+                zoom: 12,
+                mapTypeId: window.google.maps.MapTypeId.ROADMAP
+            };
+            var map = new window.google.maps.Map(document.getElementById("map_canvas"),
+                mapOptions);
+
+            var latlng = new window.google.maps.LatLng(@Html.DisplayFor(model => model.Dinner.Latitude), @Html.DisplayFor(model => model.Dinner.Longitude));
+            var marker = new window.google.maps.Marker({
+                position: latlng,
+                map: map,
+                title: 'Dinner @Html.DisplayFor(model => model.Dinner.Title)'
+            });
+
+            google.maps.event.addListener(map, 'click', function(e) {
+                var positionClick = e.latLng;
+                marker.setPosition(positionClick);
+                document.getElementById('Dinner_Latitude').value = marker.position.lat();
+                document.getElementById('Dinner_Longitude').value = marker.position.lng();
+            });
+        }
+    </script>
+}
 <h2>Create</h2>
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Dinner</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Dinner.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Dinner.Title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Dinner.Title, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Dinner.EventDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Dinner.EventDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Dinner.EventDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Dinner.DinnerID)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Dinner.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Dinner.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Dinner.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Dinner.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-xs-8">
+                            @Html.EditorFor(model => model.Dinner.Title, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Dinner.Title, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Dinner.ContactPhone, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Dinner.ContactPhone, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Dinner.ContactPhone, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Dinner.EventDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-xs-8">
+                            @Html.EditorFor(model => model.Dinner.EventDate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Dinner.EventDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Dinner.Address, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Dinner.Address, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Dinner.Address, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Dinner.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-xs-8">
+                            @Html.EditorFor(model => model.Dinner.Description, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Dinner.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Dinner.Country, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Dinner.Country, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Dinner.Country, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Dinner.ContactPhone, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-xs-8">
+                            @Html.EditorFor(model => model.Dinner.ContactPhone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Dinner.ContactPhone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Dinner.Latitude, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Dinner.Latitude, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Dinner.Latitude, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Dinner.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-xs-8">
+                            @Html.EditorFor(model => model.Dinner.Address, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Dinner.Address, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Dinner.Longitude, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Dinner.Longitude, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Dinner.Longitude, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Dinner.Country, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-xs-8">
+                            @Html.EditorFor(model => model.Dinner.Country, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Dinner.Country, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Dinner.Latitude, htmlAttributes: new { @class = "hidden" })
+                        <div class="col-xs-8">
+                            @Html.EditorFor(model => model.Dinner.Latitude, new { htmlAttributes = new { @class = "hidden" } })
+                            @Html.ValidationMessageFor(model => model.Dinner.Latitude, "", new { @class = "hidden" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Dinner.Longitude, htmlAttributes: new { @class = "hidden" })
+                        <div class="col-xs-8">
+                            @Html.EditorFor(model => model.Dinner.Longitude, new { htmlAttributes = new { @class = "hidden" } })
+                            @Html.ValidationMessageFor(model => model.Dinner.Longitude, "", new { @class = "hidden" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-xs-8">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+                <div id="map_canvas" class="col-xs-6" style="width: 450px; height: 380px">
+                </div>
             </div>
         </div>
     </div>
