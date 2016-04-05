@@ -22,8 +22,8 @@
 
         function initialize() {
             var mapOptions = {
-                center: new window.google.maps.LatLng(10, 10),
-                zoom: 12,
+                center: new window.google.maps.LatLng(47.606, -122.332),
+                zoom: 10,
                 mapTypeId: window.google.maps.MapTypeId.ROADMAP
             };
             var map = new window.google.maps.Map(document.getElementById("map_canvas"),
@@ -34,11 +34,22 @@
                 <text>
                     markersArray.push(new google.maps.Marker({
                         position: new google.maps.LatLng('@item.Latitude', '@item.Longitude', false),
-                        title: '@item.Title',
-                        content: '<p>@item.Description</p>@item.Address',
+                        title: '@item.Title, click for details.',
+                        id: '@item.DinnerID',
+                        clickable: true,
                         map: map
                     }));
-                </text>
+            </text>
+            }
+
+            for (var i = 0; i < markersArray.length; i++) {
+
+                var marker = markersArray[i];
+                var infoWindow = new window.google.maps.InfoWindow();
+                google.maps.event.addListener(marker, "click", function () {
+                    infoWindow.setContent(this.id);
+                    infoWindow.open(map, this);
+                });
             }
         }
     </script>
