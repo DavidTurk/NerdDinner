@@ -35,7 +35,7 @@
                     markersArray.push(new google.maps.Marker({
                         position: new google.maps.LatLng('@item.Latitude', '@item.Longitude', false),
                         title: '@item.Title, click for details.',
-                        id: '@item.DinnerID',
+                        content: '<a href="Dinners/Details/@item.DinnerID" >@item.Title</a> - @item.Description',
                         clickable: true,
                         map: map
                     }));
@@ -47,7 +47,7 @@
                 var marker = markersArray[i];
                 var infoWindow = new window.google.maps.InfoWindow();
                 google.maps.event.addListener(marker, "click", function () {
-                    infoWindow.setContent(this.id);
+                    infoWindow.setContent(this.content);
                     infoWindow.open(map, this);
                 });
             }
